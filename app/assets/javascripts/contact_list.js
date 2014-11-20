@@ -263,6 +263,9 @@ var ContactsApp = Marionette.Application.extend({
     
     my.fetchData(function(){
         $('#progress').hide();
+        $('#add_new').dialog({
+            dialogClass: "no-close"
+        });
         my.renderCollection();
     });
   }

@@ -40,3 +40,8 @@ div#add_new input.add{
     width: 0px;
     background-color:red;
 }
+
+h1{
+    font-family: arial;
+    font-variant: small-caps;
+}
