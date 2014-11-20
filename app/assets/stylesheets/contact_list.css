@@ -26,6 +26,10 @@ div#add_new input.add{
     display:block !important;
 }
 
+div#add_new{
+    display:none;
+}
+
 #progress{
     position: fixed;
     top: 0px;
@@ -44,4 +48,11 @@ div#add_new input.add{
 h1{
     font-family: arial;
     font-variant: small-caps;
+}
+
+a#add_item_link img{
+    height: 50px;
+    width: 50px;
+    
+    margin-bottom: -15px;
 }

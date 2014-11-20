@@ -258,14 +258,32 @@ var ContactsApp = Marionette.Application.extend({
     this.list_region.show(this.listview);
   },
   
+  popupAddContactDialog: function(){
+      $('#add_new').dialog({
+        title: "Add New Contact",
+        width: 500,
+        height: 400
+    });
+  },
+  
+  prepJQueryElements: function(){
+      var my = this;
+      
+      //hide the progress bar by default.
+      $('#progress').hide();
+      
+      //Prepares the "Add new Contact" link in the header which pops up the
+      //Create Contact form...
+      $('#add_item_link').bind("click", function(){
+        my.popupAddContactDialog();
+      });
+  },
+  
   onStart: function(options){
     var my = this;
     
     my.fetchData(function(){
-        $('#progress').hide();
-        $('#add_new').dialog({
-            dialogClass: "no-close"
-        });
+        my.prepJQueryElements();
         my.renderCollection();
     });
   }
