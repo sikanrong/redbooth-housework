@@ -1,11 +1,79 @@
-Hello! this is the page!
+<h1>
+  CONTACT LIST
+</h1>
 
-<div id="main_container">
-  <div id="contacts_list">
-  
-  </div>
+<div id="contacts_list">
+
 </div>
 
-<script id="contact_template" type="text/template">
-  FULL NAME: <%%- full_name%>
+<script id="create_template" type="text/html">
+  <div class="create_mode">
+  <%%=_.template($("#contact_template").html())({
+        full_name: "",
+        address_line_1: "",
+        address_line_2: "",
+        city: "",
+        state: "",
+        zip: "",
+        extra_notes: "",
+    })%>
+  </div>
+</script>
+
+<script id="empty_template" type="text/html">
+  There are currently no items. Add one! <br/>
+  <%%=_.template($("#create_template").html())()%>
+</script>
+
+<script id="contact_template" type="text/html">
+    
+    FULL NAME: 
+    <span class="contact_attribute_display"><%%- full_name%></span>
+    <input id="full_name" type="text" class="contact_attribute_input" value="<%%- full_name%>" />
+    <br />
+
+    ADDRESS LINE 1: 
+    <span class="contact_attribute_display"><%%- address_line_1%></span>
+    <input id="address_line_1" type="text" class="contact_attribute_input" value="<%%- address_line_1%>" />
+    <br />
+
+    ADDRESS LINE 2:
+    <span class="contact_attribute_display"><%%- address_line_2%></span>
+    <input id="address_line_2" type="text" class="contact_attribute_input" value="<%%- address_line_2%>" />
+    <br />
+
+    CITY: 
+    <span class="contact_attribute_display"><%%- city%></span>
+    <input id="city" type="text" class="contact_attribute_input" value="<%%- city%>" />
+    <br />
+
+    STATE: 
+    <span class="contact_attribute_display"><%%- state%></span>
+    <input id="state" type="text" class="contact_attribute_input" value="<%%- state%>" />
+    <br />
+
+    ZIP: 
+    <span class="contact_attribute_display"><%%- zip%></span>
+    <input id="zip" type="text" class="contact_attribute_input" value="<%%- zip%>" />
+    <br />
+
+    EXTRA NOTES: 
+    <span class="contact_attribute_display"><%%- extra_notes%></span>
+    <textarea id="extra_notes" class="contact_attribute_input"><%%- extra_notes%></textarea>
+    <br />
+
+    <a href="javascript://" class="destroy">
+      Delete
+    </a>
+    
+    &nbsp;
+    
+    <a href="javascript://" class="toggle_edit">
+      Edit
+    </a>
+    
+    <input type="button" class="save" value="Save"></input>
+    
+    <input type="button" class="add" value="Add"></input>
+    
 </script>
