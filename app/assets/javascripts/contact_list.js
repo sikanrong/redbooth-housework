@@ -93,7 +93,7 @@ var SingleContactView = Backbone.Marionette.ItemView.extend({
             
             //sync this model from the server, update the view
             my.model.fetch({success: function(){
-                my.rerender();        
+                my.reRender();        
             }});
         },
         progressall: function (e, data) {
@@ -109,7 +109,14 @@ var SingleContactView = Backbone.Marionette.ItemView.extend({
   events: {
     "click a.destroy" : "clear",
     "click a.toggle_edit" : "toggleEditMode",
-    "click input.save" : "toggleEditMode"
+    "click input.save" : "toggleEditMode",
+    "click a.destroy_image" : "destroyImage"
+  },
+  
+  destroyImage: function(){
+      this.model.set({contact_image_file_name: null});
+      $.ajax("/contacts/destroy_image/"+this.model.id);
+      this.reRender();
   },
   
   toggleEditMode: function(){
@@ -135,10 +142,10 @@ var SingleContactView = Backbone.Marionette.ItemView.extend({
           extra_notes: this.$("#extra_notes").val()
       });
       
-      this.rerender();
+      this.reRender();
   },
   
-  rerender: function(){
+  reRender: function(){
       this.render();
       this.setupFileUpload();
   },

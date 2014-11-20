@@ -32,8 +32,15 @@ class ContactsController < ApplicationController
     
     contact = safe_get_contact
     contact.contact_image = params[:contact_image]
-    contact.save
+    contact.save!
     
+    render :text => contact.to_json, :layout=>false
+  end
+  
+  def destroy_image
+    contact = safe_get_contact
+    contact.contact_image = nil
+    contact.save!
     render :text => contact.to_json, :layout=>false
   end
   
