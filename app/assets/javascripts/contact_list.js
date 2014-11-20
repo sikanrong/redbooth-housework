@@ -88,13 +88,28 @@ var SingleContactView = Backbone.Marionette.ItemView.extend({
     this.$('.fileupload').fileupload({
         url: url,
         dataType: 'json',
+        
+        add: function (e, data) {
+            //this happens before upload (resets the progress bar)
+            
+            $('#progress').fadeIn();
+            $('#progress .progress-bar').css(
+                'width: 0%'
+            );
+    
+            data.submit();
+        },
+        
         done: function (e, data) {
+            
+            $('#progress').fadeOut();
             console.log("Image uploaded...");
             
             //sync this model from the server, update the view
             my.model.fetch({success: function(){
                 my.reRender();        
             }});
+            
         },
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -247,6 +262,7 @@ var ContactsApp = Marionette.Application.extend({
     var my = this;
     
     my.fetchData(function(){
+        $('#progress').hide();
         my.renderCollection();
     });
   }

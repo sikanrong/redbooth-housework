@@ -25,3 +25,18 @@ input.add{
 div#add_new input.add{
     display:block !important;
 }
+
+#progress{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 99%;
+    margin: 5px;
+    border: 1px solid black;
+    height: 20px;
+}
+#progress div.progress-bar-success{
+    height: 20px;
+    width: 0px;
+    background-color:red;
+}
