@@ -3,26 +3,13 @@
 </h1>
 
 <div id="contacts_list">
-
+  <div id="add_new"></div>
+  
 </div>
 
-<script id="create_template" type="text/html">
-  <div class="create_mode">
-  <%%=_.template($("#contact_template").html())({
-        full_name: "",
-        address_line_1: "",
-        address_line_2: "",
-        city: "",
-        state: "",
-        zip: "",
-        extra_notes: "",
-    })%>
-  </div>
-</script>
 
 <script id="empty_template" type="text/html">
-  There are currently no items. Add one! <br/>
-  <%%=_.template($("#create_template").html())()%>
+  There are currently no items. Add one!
 </script>
 
 <script id="contact_template" type="text/html">

@@ -9,6 +9,11 @@ class ContactsController < ApplicationController
     render :text => contact.to_json, :layout=>false
   end
   
+  def create
+    contact = Contact.create(contact_params)
+    render :text => contact.to_json, :layout=>false
+  end
+  
   def destroy
     contact = Contact.find(:first, :conditions=>["id=?", params["id"]])
     contact.destroy

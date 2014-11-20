@@ -1,19 +1,19 @@
 /*Alexander Pilafian 2014-11-19*/
 /*This is the CSS for the contact list interface*/
 
-div#contacts_list li.display_mode .contact_attribute_input,
-div#contacts_list li.display_mode input.save{
+div#contacts_list .display_mode .contact_attribute_input,
+div#contacts_list .display_mode input.save{
     display:none;
 }
 
-div#contacts_list li.edit_mode .contact_attribute_display,
-div#contacts_list li.edit_mode a.toggle_edit{
+div#contacts_list .edit_mode .contact_attribute_display,
+div#contacts_list .edit_mode a.toggle_edit{
     display:none;
 }
 
-div.create_mode a.toggle_edit,
-div.create_mode a.destroy,
-div.create_mode input.save{
+div#add_new a.toggle_edit,
+div#add_new a.destroy,
+div#add_new input.save{
     display:none;
 }
 
@@ -21,6 +21,6 @@ input.add{
     display:none;
 }
 
-div.create_mode input.add{
+div#add_new input.add{
     display:block !important;
 }
