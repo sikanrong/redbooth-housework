@@ -115,7 +115,7 @@ var SingleContactView = Backbone.Marionette.ItemView.extend({
   
   destroyImage: function(){
       this.model.set({contact_image_file_name: null});
-      $.ajax("/contacts/destroy_image/"+this.model.id);
+      $.ajax("/contacts/destroy_image/"+this.model.id); 
       this.reRender();
   },
   

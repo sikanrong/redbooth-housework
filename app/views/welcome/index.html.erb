@@ -62,7 +62,7 @@
     <div id="image_upload_container">
       CONTACT IMAGE:
       <div id="image_display" style="<%%-(hasImage())? '' : 'display:none'%>">
-        <img src="<%%- getImageUrl() %>" />
+        <img src="<%%- (hasImage())? getImageUrl() : '/images/thumb/missing.png' %>" />
       </div>
       
       <div class="btn btn-success fileinput-button">
