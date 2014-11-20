@@ -13,7 +13,8 @@ div#contacts_list .edit_mode a.toggle_edit{
 
 div#add_new a.toggle_edit,
 div#add_new a.destroy,
-div#add_new input.save{
+div#add_new input.save,
+div#add_new div#image_upload_container{
     display:none;
 }
 

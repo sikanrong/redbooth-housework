@@ -3,7 +3,11 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.3'
 
+# Use mysql (because fuck SQLite! AMERICA!! FUCK YEAH!!!)
 gem 'mysql'
+
+# Use paperclip for easy image/file attachment
+gem "paperclip"
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

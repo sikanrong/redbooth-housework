@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141118120932) do
+ActiveRecord::Schema.define(version: 20141120124600) do
 
   create_table "contacts", force: true do |t|
     t.string   "full_name"
@@ -23,6 +23,11 @@ ActiveRecord::Schema.define(version: 20141118120932) do
     t.text     "extra_notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "contact_image_file_name"
+    t.string   "contact_image_content_type"
+    t.integer  "contact_image_file_size"
+    t.datetime "contact_image_updated_at"
+    t.string   "email"
   end
 
 end

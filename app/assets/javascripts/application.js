@@ -16,5 +16,8 @@
 //= require underscore
 //= require backbone
 //= require backbone.marionette
-//= contact_list
+//= require jquery.ui.widget
+//= require jquery.fileupload
+//= require jquery.iframe-transport
+//= require contact_list
 //= require_tree .

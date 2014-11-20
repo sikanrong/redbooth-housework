@@ -2,10 +2,15 @@
   CONTACT LIST
 </h1>
 
-<div id="contacts_list">
-  <div id="add_new"></div>
-  
+<!-- image upload progress bar -->
+<div id="progress" class="progress">
+    <div class="progress-bar progress-bar-success"></div>
 </div>
+
+
+<div id="add_new"></div>
+<div id="contacts_list"></div>
+<div id="list_region"></div>
 
 
 <script id="empty_template" type="text/html">
@@ -17,6 +22,11 @@
     FULL NAME: 
     <span class="contact_attribute_display"><%%- full_name%></span>
     <input id="full_name" type="text" class="contact_attribute_input" value="<%%- full_name%>" />
+    <br />
+    
+    EMAIL: 
+    <span class="contact_attribute_display"><%%- email%></span>
+    <input id="email" type="text" class="contact_attribute_input" value="<%%- email%>" />
     <br />
 
     ADDRESS LINE 1: 
@@ -48,9 +58,30 @@
     <span class="contact_attribute_display"><%%- extra_notes%></span>
     <textarea id="extra_notes" class="contact_attribute_input"><%%- extra_notes%></textarea>
     <br />
-
+    
+    <div id="image_upload_container">
+      CONTACT IMAGE:
+      <div id="image_display" style="<%%-(hasImage())? '' : 'display:none'%>">
+        <img src="<%%- getImageUrl() %>" />
+      </div>
+      
+      <div class="btn btn-success fileinput-button">
+          <i class="glyphicon glyphicon-plus"></i>
+          <span>
+            <%%-(hasImage())? 'Change Image...' : 'Select Image...'%>
+          </span>
+          <input class="fileupload" type="file" name="contact_image"/>
+      </div>
+    </div>
+    
     <a href="javascript://" class="destroy">
       Delete
+    </a>
+    
+    &nbsp;
+    
+    <a href="javascript://" class="destroy_image" style="<%%-(hasImage())? '' : 'display:none'%>">
+      Delete Image
     </a>
     
     &nbsp;
@@ -58,9 +89,11 @@
     <a href="javascript://" class="toggle_edit">
       Edit
     </a>
+    &nbsp;
     
     <input type="button" class="save" value="Save"></input>
     
+    &nbsp;
     <input type="button" class="add" value="Add"></input>
     
 </script>
