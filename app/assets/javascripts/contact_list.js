@@ -32,6 +32,7 @@ var ContactCollection = Backbone.Collection.extend({
 
 var SingleContactView = Backbone.Marionette.ItemView.extend({
   tagName: "div",
+  id: "single_contact_display",
   className: "display_mode",
   
   template: "#contact_template",

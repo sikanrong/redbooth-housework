@@ -1,16 +1,33 @@
 /*Alexander Pilafian 2014-11-19*/
 /*This is the CSS for the contact list interface*/
 
+/*Globally set the font to arial*/
+* {
+    font-family: arial;
+}
+
+a{
+    text-decoration: none;
+}
+
+.dbg_border{
+    border: 1px solid red;
+}
+
+/*hides the save button and the edit-inputs if the View is in "display_mode"*/
 div#contacts_list .display_mode .contact_attribute_input,
 div#contacts_list .display_mode input.save{
     display:none;
 }
 
+/*hides the toggle edit link and the textual attribute display if the View
+is in "edit" mode*/
 div#contacts_list .edit_mode .contact_attribute_display,
 div#contacts_list .edit_mode a.toggle_edit{
     display:none;
 }
 
+/*hides the unrelated bottom links in the "Create new Contact" popup...*/
 div#add_new a.toggle_edit,
 div#add_new a.destroy,
 div#add_new input.save,
@@ -18,6 +35,7 @@ div#add_new div#image_upload_container{
     display:none;
 }
 
+/*hides the "add" button in all cases except if within the "Create new contact" popup...*/
 input.add{
     display:none;
 }
@@ -26,10 +44,12 @@ div#add_new input.add{
     display:block !important;
 }
 
+/*Hides the "Create new contact" popup *content* until the Dialog is summoned*/
 div#add_new{
     display:none;
 }
 
+/*progress bar styling*/
 #progress{
     position: fixed;
     top: 0px;
@@ -45,14 +65,87 @@ div#add_new{
     background-color:red;
 }
 
+
+
+/*page header style*/
 h1{
-    font-family: arial;
+    width:100%;
+    
     font-variant: small-caps;
 }
 
+/*"Create new contact" popup link style*/
 a#add_item_link img{
     height: 50px;
     width: 50px;
     
     margin-bottom: -15px;
+}
+
+/*Actual contact info display box styling...*/
+#contacts_list #single_contact_display{
+    display:inline-block !important;
+    border: 2px solid grey;
+    margin: 5px;
+    padding: 5px;
+    width: 500px;
+    height: 250px;
+    overflow: hidden;
+    top: 0px;
+    clear: none;
+}
+
+/*create a subdivision within each "contact card"*/
+#contacts_list #single_contact_display .contact_subcontainer{
+    width:240px;
+    padding: 5px;
+    float:left;
+}
+
+#contacts_list #single_contact_display label{
+ font-variant: small-caps;
+}
+
+#contacts_list #single_contact_display div#image_upload_container{
+    height:150px;
+}
+
+#contacts_list #single_contact_display #action_links{
+    clear:both;    
+    width: 100%;
+}
+
+#contacts_list #single_contact_display .contact_attribute_display,
+#contacts_list #single_contact_display .contact_attribute_input{
+    float:right;
+    width:165px;
+    text-align:right;
+    overflow:hidden;
+}
+
+/*For a textarea, it's vital that the text alignment is left.'*/
+#contacts_list #single_contact_display textarea.contact_attribute_input{
+    text-align:left !important;
+}
+
+#contacts_list #single_contact_display #both_address_lines{
+    height: 50px;
+}
+
+/*For the textual notes display scroller. Note that the text-align is set to left 
+here too because it's multiline content...'*/
+#contacts_list #single_contact_display #notes_display{
+    width: 238px;
+    border-bottom: 1px solid grey;
+    border-top: 1px solid grey;
+    
+    padding-top: 5px;
+    padding-bottom: 5px;
+    
+    margin-top: 5px;
+    margin-bottom: 5px;
+    
+    height: 70px; 
+    text-align:left !important;
+    overflow-y: scroll;
 }
