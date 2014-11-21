@@ -7,7 +7,7 @@ gem 'rails', '4.0.3'
 gem 'mysql'
 
 #for heroku
-gem "postgres"
+gem "pg"
 
 # Use paperclip for easy image/file attachment
 gem "paperclip"
