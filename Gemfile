@@ -38,6 +38,8 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'rails_12factor', group: :production
+
 gem 'jquery-ui-rails' # jquery ui
 
 # Use Capistrano for deployment
