@@ -6,6 +6,9 @@ gem 'rails', '4.0.3'
 # Use mysql (because fuck SQLite! AMERICA!! FUCK YEAH!!!)
 gem 'mysql'
 
+#for heroku
+gem "postgres"
+
 # Use paperclip for easy image/file attachment
 gem "paperclip"
 
