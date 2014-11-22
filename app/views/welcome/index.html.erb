@@ -1,9 +1,11 @@
-<h1>
+<div>
+<div class="page_title">
   Address Book
   <a id="add_item_link" href="javascript://" title="Add a new Contact">
     <img src="/images/add-user.png" />
   </a>
-</h1>
+</div>
+</div>
 
 <!-- image upload progress bar -->
 <div id="progress" class="progress">
@@ -11,7 +13,7 @@
 </div>
 
 
-<div id="add_new"></div>
+<div id="single_contact_display" class="add_new"></div>
 <div id="contacts_list"></div>
 <div id="list_region"></div>
 
@@ -22,39 +24,59 @@
 
 <script id="contact_template" type="text/html">
   
-    <div class="contact_basicinfo_container contact_subcontainer" >
-      <label>Name</label>
-      <span class="contact_attribute_display"><%%- full_name%></span>
-      <input id="full_name" type="text" class="contact_attribute_input" value="<%%- full_name%>" />
-      <br />
-
-      <label>Email </label>
-      <span class="contact_attribute_display"><%%- email%></span>
-      <input id="email" type="text" class="contact_attribute_input" value="<%%- email%>" />
-      <br />
-
-      <div id="image_upload_container">
-        <label>Picture:</label>
+    <a href="javascript://" class="destroy_contact">
+      <img src="/images/delete-icon.png" />
+    </a>
+  
+    <div class="contact_subcontainer">
+      
+      <div class="info_row" id="name_container">  
+        <span class="contact_attribute_display"><%%- full_name%></span>
+        <input id="full_name" type="text" class="contact_attribute_input" value="<%%- full_name%>" />
+      </div>
+      
+      <div id="image_upload_container" class="info_row">
+      
         <div id="image_display">
           <img src="<%%- (hasImage())? getImageUrl() : '/images/thumb/missing.png' %>" />
         </div>
-
-        <div class="btn btn-success fileinput-button">
-            <i class="glyphicon glyphicon-plus"></i>
-            <a href="javascript://">
-              <%%-(hasImage())? 'Change Image' : 'Upload Image'%>
-            </a>
-            <input class="fileupload" type="file" name="contact_image"/>
+        <div id="image_links">
+          <div class="btn btn-success fileinput-button">
+              <i class="glyphicon glyphicon-plus"></i>
+              <a href="javascript://">
+                <%%-(hasImage())? 'Change Image' : 'Upload Image'%>
+              </a>
+              <input class="fileupload" type="file" name="contact_image"/>
+          </div>
+          <a href="javascript://" class="destroy_image" style="<%%-(hasImage())? '' : 'display:none'%>">
+            Delete Image
+          </a>
         </div>
-        <a href="javascript://" class="destroy_image" style="<%%-(hasImage())? '' : 'display:none'%>">
-          Delete Image
-        </a>
       </div>
+      
+      
+
+      <div class="info_row">
+        <label>Email </label>
+        <span class="contact_attribute_display"><%%- email%></span>
+        <input id="email" type="text" class="contact_attribute_input" value="<%%- email%>" />
+      </div>
+
+      <input type="button" class="add" value="Add"></input>
+      
+      <a href="javascript://" class="toggle_edit">
+        Edit
+      </a>
+      
+      
+      <input type="button" class="save" value="Save"></input>
+      
     </div>
   
   
-    <div class="contact_address_container contact_subcontainer">
-      <div id="both_address_lines">
+    <div class="contact_subcontainer">
+      
+      <div id="both_address_lines" class="info_row">
         <label>Address</label>
         <div class="contact_attribute_display"><%%- address_line_1%></div>
         <input id="address_line_1" type="text" class="contact_attribute_input" value="<%%- address_line_1%>" />
@@ -63,41 +85,32 @@
       </div>
 
 
+      <div class="info_row">
+        <label>City </label>
+        <span class="contact_attribute_display"><%%- city%></span>
+        <input id="city" type="text" class="contact_attribute_input" value="<%%- city%>" />
+      </div>
+      
+        
+      <div class="info_row">
+        <label>State </label>
+        <span class="contact_attribute_display"><%%- state%></span>
+        <input id="state" type="text" class="contact_attribute_input" value="<%%- state%>" />
+      </div>
+      
+      <div class="info_row">
+        <label>Zip </label>
+        <span class="contact_attribute_display"><%%- zip%></span>
+        <input id="zip" type="text" class="contact_attribute_input" value="<%%- zip%>" />
+      </div>
 
-      <label>City </label>
-      <span class="contact_attribute_display"><%%- city%></span>
-      <input id="city" type="text" class="contact_attribute_input" value="<%%- city%>" />
-      <br />
-
-      <label>State </label>
-      <span class="contact_attribute_display"><%%- state%></span>
-      <input id="state" type="text" class="contact_attribute_input" value="<%%- state%>" />
-      <br />
-
-      <label>Zip </label>
-      <span class="contact_attribute_display"><%%- zip%></span>
-      <input id="zip" type="text" class="contact_attribute_input" value="<%%- zip%>" />
-      <br />
-
-      <label>Notes:</label><br/>
-      <span class="contact_attribute_display" id="notes_display" ><%%- extra_notes%></span>
-      <textarea id="extra_notes" class="contact_attribute_input"><%%- extra_notes%></textarea>
-      <br />
+      <div class="info_row">
+        <label>Notes:</label>
+        <span class="contact_attribute_display" id="notes_display" ><%%- extra_notes%></span>
+        <textarea id="extra_notes" class="contact_attribute_input"><%%- extra_notes%></textarea>
+      </div>
+      
     </div>
     
     
-    
-    <div id="action_links">
-      <a href="javascript://" class="destroy">
-        Delete
-      </a>
-      &nbsp;
-      <a href="javascript://" class="toggle_edit">
-        Edit
-      </a>
-      &nbsp;
-      <input type="button" class="save" value="Save"></input>
-      &nbsp;
-      <input type="button" class="add" value="Add"></input>
-    </div>
 </script>

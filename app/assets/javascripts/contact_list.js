@@ -123,7 +123,7 @@ var SingleContactView = Backbone.Marionette.ItemView.extend({
   },
   
   events: {
-    "click a.destroy" : "clear",
+    "click a.destroy_contact" : "clear",
     "click a.toggle_edit" : "toggleEditMode",
     "click input.save" : "toggleEditMode",
     "click a.destroy_image" : "destroyImage"
@@ -167,7 +167,10 @@ var SingleContactView = Backbone.Marionette.ItemView.extend({
   },
   
   clear: function(){
-    this.model.destroy();
+      var my = this;
+      my.$el.fadeOut(400, function(){
+         my.model.destroy(); 
+      });
   }
   
 });
@@ -184,6 +187,7 @@ var AddContactView = SingleContactView.extend({
         this.saveContact();
         $app.commands.execute("listAggregate", this.model);
         this.model = new ContactModel();
+        $app.closeAddContactDialog();
         this.render();
     }
     
@@ -239,7 +243,7 @@ var ContactsApp = Marionette.Application.extend({
     
     var addview = new AddContactView({
         model: new ContactModel(),
-        el: "#add_new"
+        el: ".add_new"
     });
 
     this.listview = new ContactListView({
@@ -259,11 +263,16 @@ var ContactsApp = Marionette.Application.extend({
     this.list_region.show(this.listview);
   },
   
+  closeAddContactDialog: function(){
+    this.add_contact_dlg.dialog("close");
+  },
+  
   popupAddContactDialog: function(){
-      $('#add_new').dialog({
+    this.add_contact_dlg = $('.add_new');
+    this.add_contact_dlg.dialog({
         title: "Add New Contact",
-        width: 500,
-        height: 400
+        width: 520,
+        height: 300
     });
   },
   
