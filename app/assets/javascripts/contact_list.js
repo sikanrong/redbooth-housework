@@ -80,6 +80,7 @@ var ContactModel = Backbone.Model.extend({
         city: "",
         state: "",
         zip: "",
+        phone: "",
         extra_notes: ""
     },
     

@@ -51,6 +51,6 @@ class ContactsController < ApplicationController
     end
   
     def contact_params
-      params.permit(:full_name, :email, :address_line_1, :address_line_2, :city, :state, :zip, :extra_notes)
+      params.permit(:full_name, :email, :address_line_1, :address_line_2, :city, :state, :zip, :phone, :extra_notes)
     end
 end
