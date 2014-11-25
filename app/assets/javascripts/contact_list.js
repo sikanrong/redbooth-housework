@@ -3,6 +3,70 @@
  * Written for RedBooth.com application process.
  */
 
+$GLOBALS = {
+    us_states: {
+        "AL": "Alabama",
+        "AK": "Alaska",
+        "AS": "American Samoa",
+        "AZ": "Arizona",
+        "AR": "Arkansas",
+        "CA": "California",
+        "CO": "Colorado",
+        "CT": "Connecticut",
+        "DE": "Delaware",
+        "DC": "District Of Columbia",
+        "FM": "Federated States Of Micronesia",
+        "FL": "Florida",
+        "GA": "Georgia",
+        "GU": "Guam",
+        "HI": "Hawaii",
+        "ID": "Idaho",
+        "IL": "Illinois",
+        "IN": "Indiana",
+        "IA": "Iowa",
+        "KS": "Kansas",
+        "KY": "Kentucky",
+        "LA": "Louisiana",
+        "ME": "Maine",
+        "MH": "Marshall Islands",
+        "MD": "Maryland",
+        "MA": "Massachusetts",
+        "MI": "Michigan",
+        "MN": "Minnesota",
+        "MS": "Mississippi",
+        "MO": "Missouri",
+        "MT": "Montana",
+        "NE": "Nebraska",
+        "NV": "Nevada",
+        "NH": "New Hampshire",
+        "NJ": "New Jersey",
+        "NM": "New Mexico",
+        "NY": "New York",
+        "NC": "North Carolina",
+        "ND": "North Dakota",
+        "MP": "Northern Mariana Islands",
+        "OH": "Ohio",
+        "OK": "Oklahoma",
+        "OR": "Oregon",
+        "PW": "Palau",
+        "PA": "Pennsylvania",
+        "PR": "Puerto Rico",
+        "RI": "Rhode Island",
+        "SC": "South Carolina",
+        "SD": "South Dakota",
+        "TN": "Tennessee",
+        "TX": "Texas",
+        "UT": "Utah",
+        "VT": "Vermont",
+        "VI": "Virgin Islands",
+        "VA": "Virginia",
+        "WA": "Washington",
+        "WV": "West Virginia",
+        "WI": "Wisconsin",
+        "WY": "Wyoming"
+    }
+}
+
 //Define the contact model
 //Link to the RESTful rails API for 'contacts'
 var ContactModel = Backbone.Model.extend({
@@ -19,9 +83,10 @@ var ContactModel = Backbone.Model.extend({
         extra_notes: ""
     },
     
-    setupFileUpload: function(){
-        this.trigger("setup:fileupload");
-    }
+    setupJQueryPlugins: function(){
+        this.trigger("setup:jqueryplugins");
+    },
+    
 });
 
 //define the contact collection. 
@@ -39,6 +104,7 @@ var SingleContactView = Backbone.Marionette.ItemView.extend({
   
   initialize: function(){
       this.model.on("setup:fileupload", this.setupFileUpload, this);
+      this.model.on("setup:jqueryplugins", this.setupJQueryPlugins, this);
   },
   
   templateHelpers:function(){
@@ -122,6 +188,43 @@ var SingleContactView = Backbone.Marionette.ItemView.extend({
     });
   },
   
+  setupJEditInPlace: function(){
+      var my = this;
+      
+      var completeFunction = function(value, settings) {
+            var put_hsh = {};
+            put_hsh[this.id] = value;
+            var desired_func = (my.disableSync === true)? "set" : "save";
+            my.model[desired_func](put_hsh);
+            my.reRender();
+            return(value);
+        };
+      
+      var jeditable_settings = {
+         indicator : 'Saving...',
+         tooltip   : 'Click to edit...',
+         onblur    : "submit",
+         event     : "mouseup.editable",
+         placeholder : "<span id='jeditable_placeholder'>Click to add</span>"
+     };
+      
+      this.$(".contact_attribute_edit").editable(
+        completeFunction,
+        jeditable_settings);
+
+      this.$(".contact_attribute_edit_area").editable(
+        completeFunction,
+        _.extend(jeditable_settings, {type: "textarea"}));
+        
+      this.$(".contact_attribute_edit_select").editable(
+        completeFunction,
+        _.extend(jeditable_settings, {
+            data: _.extend(_.clone($GLOBALS.us_states), {"selected": my.model.attributes.state}),
+            type: "select",
+            submit: "OK"
+        }));
+  },
+  
   events: {
     "click a.destroy_contact" : "clear",
     "click a.toggle_edit" : "toggleEditMode",
@@ -147,23 +250,18 @@ var SingleContactView = Backbone.Marionette.ItemView.extend({
   },
   
   saveContact: function(){
-      this.model.save({
-          full_name: this.$("#full_name").val(),
-          email: this.$("#email").val(),
-          address_line_1: this.$("#address_line_1").val(),
-          address_line_2: this.$("#address_line_2").val(),
-          city: this.$("#city").val(),
-          state: this.$("#state").val(),
-          zip: this.$("#zip").val(),
-          extra_notes: this.$("#extra_notes").val()
-      });
-      
+      this.model.save();
       this.reRender();
   },
   
   reRender: function(){
       this.render();
+      this.setupJQueryPlugins();
+  },
+  
+  setupJQueryPlugins: function(){
       this.setupFileUpload();
+      this.setupJEditInPlace();
   },
   
   clear: function(){
@@ -225,15 +323,15 @@ var ContactsApp = Marionette.Application.extend({
     });
   },
   
-  setupFileUpload: function(){
+  setupJQueryPlugins: function(){
     this.contacts.each(function(contact_model){
-        contact_model.setupFileUpload();
+        contact_model.setupJQueryPlugins();
     });
   },
   
   reRenderCollection: function(){
     this.listview.render();
-    this.setupFileUpload();  
+    this.setupJQueryPlugins();  
   },
   
   renderCollection: function(){
@@ -256,10 +354,13 @@ var ContactsApp = Marionette.Application.extend({
     });
     
     this.list_region.on("show", function(view){
-        my.setupFileUpload();
+        my.setupJQueryPlugins();
     });
     
     addview.render();
+    addview.disableSync = true;
+    addview.setupJEditInPlace();
+    
     this.list_region.show(this.listview);
   },
   
@@ -272,18 +373,15 @@ var ContactsApp = Marionette.Application.extend({
     this.add_contact_dlg.dialog({
         title: "Add New Contact",
         width: 520,
-        height: 300
+        height: 320
     });
   },
   
-  prepJQueryElements: function(){
+  setupAddItemLink: function(){
       var my = this;
       
-      //hide the progress bar by default.
-      $('#progress').hide();
-      
-      //Prepares the "Add new Contact" link in the header which pops up the
-      //Create Contact form...
+      //Prepares the "Add new Contact" link in the header, binds event to 
+      //create a JQuery-UI Dialog.
       $('#add_item_link').bind("click", function(){
         my.popupAddContactDialog();
       });
@@ -293,8 +391,8 @@ var ContactsApp = Marionette.Application.extend({
     var my = this;
     
     my.fetchData(function(){
-        my.prepJQueryElements();
         my.renderCollection();
+        my.setupAddItemLink();
     });
   }
   

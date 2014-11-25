@@ -19,5 +19,7 @@
 //= require jquery-ui
 //= require jquery.fileupload
 //= require jquery.iframe-transport
+//= require jquery.jeditable
 //= require contact_list
 //= require_tree .
+

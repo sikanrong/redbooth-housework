@@ -15,7 +15,6 @@ a{
 }
 
 /*hides the save button and the edit-inputs if the View is in "display_mode"*/
-.display_mode .contact_attribute_input,
 .display_mode input.save{
     display:none;
 }
@@ -54,6 +53,7 @@ div.add_new input.add{
     margin: 5px;
     border: 1px solid black;
     height: 20px;
+    display:none;
 }
 #progress div.progress-bar-success{
     height: 20px;
@@ -94,9 +94,8 @@ div.add_new{
     padding: 5px;
     width: 500px;
     height: 250px;
-    
     top: 0px;
-    clear: none;
+    clear: left;
 }
 
 /*create a subdivision within each "contact card"*/
@@ -134,20 +133,18 @@ div.add_new{
     width: 100%;
 }
 
-#single_contact_display .contact_attribute_display,
-#single_contact_display .contact_attribute_input{
+#single_contact_display .contact_attribute_edit,
+#single_contact_display .contact_attribute_edit input,
+#single_contact_display .contact_attribute_edit_select{
     float:right;
     width:165px;
-    
+    font-size: 13px;
     overflow:hidden;
-}
-
-#single_contact_display .contact_attribute_display{
     text-align: right;
 }
 
 /*For a textarea, it's vital that the text alignment is left.'*/
-#single_contact_display textarea.contact_attribute_input{
+#single_contact_display .contact_attribute_edit_area{
     text-align:left !important;
 }
 
@@ -157,7 +154,7 @@ div.add_new{
 
 /*For the textual notes display scroller. Note that the text-align is set to left 
 here too because it's multiline content...'*/
-#single_contact_display #notes_display{
+#single_contact_display .notes_display{
     width: 238px;
     border-bottom: 1px solid grey;
     border-top: 1px solid grey;
@@ -169,7 +166,10 @@ here too because it's multiline content...'*/
     margin-bottom: 5px;
     
     height: 70px; 
+    
     text-align:left !important;
+    font-size:13px;
+    
     overflow-y: scroll;
 }
 
@@ -197,8 +197,8 @@ here too because it's multiline content...'*/
 }
 
 #single_contact_display a.destroy_contact{
-    margin-top: -15px;
-    margin-right: -15px;
+    margin-top: -18px;
+    margin-right: -18px;
     float:right;
 }
 
@@ -206,8 +206,7 @@ here too because it's multiline content...'*/
     margin-bottom: 5px;
 }
 
-#single_contact_display .info_row#name_container .contact_attribute_display,
-#single_contact_display .info_row#name_container input{
+#single_contact_display .info_row#name_container .contact_attribute_edit{
     float:left;
     
     font-size:20px;
@@ -216,4 +215,8 @@ here too because it's multiline content...'*/
     
     height:22px;
     width:100%;   
+}
+
+#single_contact_display .info_row #jeditable_placeholder{
+    color: #AAA;
 }

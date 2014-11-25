@@ -31,8 +31,7 @@
     <div class="contact_subcontainer">
       
       <div class="info_row" id="name_container">  
-        <span class="contact_attribute_display"><%%- full_name%></span>
-        <input id="full_name" type="text" class="contact_attribute_input" value="<%%- full_name%>" />
+        <span class="contact_attribute_edit" id="full_name"><%%- full_name%></span>
       </div>
       
       <div id="image_upload_container" class="info_row">
@@ -58,18 +57,10 @@
 
       <div class="info_row">
         <label>Email </label>
-        <span class="contact_attribute_display"><%%- email%></span>
-        <input id="email" type="text" class="contact_attribute_input" value="<%%- email%>" />
+        <span class="contact_attribute_edit" id="email"><%%- email%></span>
       </div>
 
       <input type="button" class="add" value="Add"></input>
-      
-      <a href="javascript://" class="toggle_edit">
-        Edit
-      </a>
-      
-      
-      <input type="button" class="save" value="Save"></input>
       
     </div>
   
@@ -78,36 +69,30 @@
       
       <div id="both_address_lines" class="info_row">
         <label>Address</label>
-        <div class="contact_attribute_display"><%%- address_line_1%></div>
-        <input id="address_line_1" type="text" class="contact_attribute_input" value="<%%- address_line_1%>" />
-        <div class="contact_attribute_display"><%%- address_line_2%></div>
-        <input id="address_line_2" type="text" class="contact_attribute_input" value="<%%- address_line_2%>" />
+        <div class="contact_attribute_edit" id="address_line_1"><%%- address_line_1%></div>
+        <div class="contact_attribute_edit" id="address_line_2"><%%- address_line_2%></div>
       </div>
 
 
       <div class="info_row">
         <label>City </label>
-        <span class="contact_attribute_display"><%%- city%></span>
-        <input id="city" type="text" class="contact_attribute_input" value="<%%- city%>" />
+        <span class="contact_attribute_edit" id="city"><%%- city%></span>
       </div>
       
         
       <div class="info_row">
         <label>State </label>
-        <span class="contact_attribute_display"><%%- state%></span>
-        <input id="state" type="text" class="contact_attribute_input" value="<%%- state%>" />
+        <span class="contact_attribute_edit_select" id="state"><%%- $GLOBALS.us_states[state]%></span>
       </div>
       
       <div class="info_row">
         <label>Zip </label>
-        <span class="contact_attribute_display"><%%- zip%></span>
-        <input id="zip" type="text" class="contact_attribute_input" value="<%%- zip%>" />
+        <span class="contact_attribute_edit" id="zip"><%%- zip%></span>
       </div>
 
       <div class="info_row">
         <label>Notes:</label>
-        <span class="contact_attribute_display" id="notes_display" ><%%- extra_notes%></span>
-        <textarea id="extra_notes" class="contact_attribute_input"><%%- extra_notes%></textarea>
+        <div class="contact_attribute_edit_area notes_display" id="extra_notes"><%%- extra_notes%></div>
       </div>
       
     </div>
