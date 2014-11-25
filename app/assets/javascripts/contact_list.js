@@ -3,7 +3,12 @@
  * Written for RedBooth.com application process.
  */
 
+
+// A simple global object to hold global data.
 $GLOBALS = {
+    // A simple hash with the 50 US states. 
+    // (plus all of the "Associated States" like Guam, the Federated States of Micronesia, etc)
+    // ...FUCK YEAH! 'MURICA!
     us_states: {
         "AL": "Alabama",
         "AK": "Alaska",
@@ -72,6 +77,8 @@ $GLOBALS = {
 var ContactModel = Backbone.Model.extend({
     urlRoot: '/contacts',
     
+    // These are the default values for an empty "ContactModel" instance. These
+    // are utilized when creating a model to be used with the "Add Contact" form.
     defaults: {
         full_name: "",
         email: "",
@@ -82,10 +89,6 @@ var ContactModel = Backbone.Model.extend({
         zip: "",
         phone: "",
         extra_notes: ""
-    },
-    
-    setupJQueryPlugins: function(){
-        this.trigger("setup:jqueryplugins");
     }
 
 });
@@ -99,7 +102,6 @@ var ContactCollection = Backbone.Collection.extend({
 var ContactCardView = Backbone.Marionette.ItemView.extend({
   tagName: "div",
   id: "single_contact_display",
-  template: "#contact_template",
   
   //Related to the "active state" of this ContactCard
   selectedOffset: "5px",
@@ -108,9 +110,6 @@ var ContactCardView = Backbone.Marionette.ItemView.extend({
   initialize: function(){
       var my = this;
       
-      this.model.on("setup:fileupload", this.setupFileUpload, this);
-      this.model.on("setup:jqueryplugins", this.setupJQueryPlugins, this);
-      
       $('html').mousedown(function(event) {
         if (!$(event.target).closest(my.$el).length) {
             my.setInactive();
@@ -118,6 +117,57 @@ var ContactCardView = Backbone.Marionette.ItemView.extend({
       });
   },
   
+  template : function() {
+    return _.template($("#contact_template").html());
+  },
+  
+  templateHelpers:function(){
+    var my = this;
+    return {
+        hasImage: function(){
+          var modelAttrs = my.model.attributes;
+
+          if(typeof modelAttrs.id == "undefined"){
+                return false;
+          }
+
+          if(typeof modelAttrs.contact_image_file_name == "undefined"){
+              return false;
+          }
+
+          if(modelAttrs.contact_image_file_name == null){
+              return false;
+          }
+
+            return true;
+        },
+
+        getImageUrl: function(){
+            if(typeof my.model.attributes.id == "undefined"){
+                return null;
+            }
+
+            var zeroPad = function(num, places) {
+               var zero = places - num.toString().length + 1;
+               return Array(+(zero > 0 && zero)).join("0") + num;
+            }
+
+            var paddedIdStr = zeroPad(my.model.attributes.id, 9);
+            var idStrArray = [];
+            for(var i = 0; i < 3; i++){
+                idStrArray.push(paddedIdStr.substring(i*3, (i*3)+3));
+            }
+            var idUrl = idStrArray.join("/");
+            return "/system/contacts/contact_images/"+idUrl+"/thumb/"+my.model.attributes.contact_image_file_name;
+        }
+  }},
+  
+  render: function(){
+    var templateVars = _.extend(_.clone(this.model.attributes), this.templateHelpers());
+    this.$el.html(this.template()(templateVars));
+    this.setupJQueryPlugins();
+    return this;
+  },
   
   events: {
     "mousedown" : "setActive",
@@ -156,48 +206,6 @@ var ContactCardView = Backbone.Marionette.ItemView.extend({
       this.isActive = false;
   },
   
-  templateHelpers:function(){
-        var my = this;
-        return {
-            hasImage: function(){
-              var modelAttrs = my.model.attributes;
-              
-              if(typeof modelAttrs.id == "undefined"){
-                    return false;
-              }
-                
-              if(typeof modelAttrs.contact_image_file_name == "undefined"){
-                  return false;
-              }
-              
-              if(modelAttrs.contact_image_file_name == null){
-                  return false;
-              }
-              
-                return true;
-            },
-            
-            getImageUrl: function(){
-                if(typeof my.model.attributes.id == "undefined"){
-                    return null;
-                }
-                
-                var zeroPad = function(num, places) {
-                   var zero = places - num.toString().length + 1;
-                   return Array(+(zero > 0 && zero)).join("0") + num;
-                }
-                
-                var paddedIdStr = zeroPad(my.model.attributes.id, 9);
-                var idStrArray = [];
-                for(var i = 0; i < 3; i++){
-                    idStrArray.push(paddedIdStr.substring(i*3, (i*3)+3));
-                }
-                var idUrl = idStrArray.join("/");
-                return "/system/contacts/contact_images/"+idUrl+"/thumb/"+my.model.attributes.contact_image_file_name;
-            }
-        };
-    },
-  
   setupFileUpload: function(){
     var my = this;
     var url = "/contacts/upload_image/"+this.model.id;
@@ -223,7 +231,7 @@ var ContactCardView = Backbone.Marionette.ItemView.extend({
             
             //sync this model from the server, update the view
             my.model.fetch({success: function(){
-                my.reRender();        
+                my.render();        
             }});
             
         },
@@ -245,7 +253,7 @@ var ContactCardView = Backbone.Marionette.ItemView.extend({
             put_hsh[this.id] = value;
             var desired_func = (my.disableSync === true)? "set" : "save";
             my.model[desired_func](put_hsh);
-            my.reRender();
+            my.render();
             return(value);
         };
       
@@ -277,17 +285,12 @@ var ContactCardView = Backbone.Marionette.ItemView.extend({
   destroyImage: function(){
       this.model.set({contact_image_file_name: null});
       $.ajax("/contacts/destroy_image/"+this.model.id); 
-      this.reRender();
+      this.render();
   },
   
   saveContact: function(){
       this.model.save();
-      this.reRender();
-  },
-  
-  reRender: function(){
       this.render();
-      this.setupJQueryPlugins();
   },
   
   setupJQueryPlugins: function(){
@@ -306,7 +309,6 @@ var ContactCardView = Backbone.Marionette.ItemView.extend({
 
 var AddContactView = ContactCardView.extend({
     tagName: "div",
-    template: "#contact_template",
     
     events: {
         "click input.add" : "addContact"
@@ -361,17 +363,6 @@ var ContactsApp = Marionette.Application.extend({
     });
   },
   
-  setupJQueryPlugins: function(){
-    this.contacts.each(function(contact_model){
-        contact_model.setupJQueryPlugins();
-    });
-  },
-  
-  reRenderCollection: function(){
-    this.listview.render();
-    this.setupJQueryPlugins();  
-  },
-  
   renderCollection: function(){
       
     console.log("Rendering "+this.contacts.length+" Contacts...");
@@ -387,19 +378,11 @@ var ContactsApp = Marionette.Application.extend({
         el: "#contacts_list"
     });
     
-    this.list_region = new Backbone.Marionette.Region({
-        el: "#list_region"
-    });
-    
-    this.list_region.on("show", function(view){
-        my.setupJQueryPlugins();
-    });
-    
     addview.render();
     addview.disableSync = true;
     addview.setupJEditInPlace();
     
-    this.list_region.show(this.listview);
+    this.listview.render();
   },
   
   closeAddContactDialog: function(){
@@ -428,6 +411,13 @@ var ContactsApp = Marionette.Application.extend({
   onStart: function(options){
     var my = this;
     
+    my.commands.setHandler("listAggregate", function(model){
+        model.fetch({success: function(){
+            my.contacts.add(model);
+            my.listview.render();
+        }});
+    });
+    
     my.fetchData(function(){
         my.renderCollection();
         my.setupAddItemLink();
@@ -438,13 +428,6 @@ var ContactsApp = Marionette.Application.extend({
 
 //initialize the global marionette application object
 var $app = new ContactsApp({container: '#contacts_list'});
-
-$app.commands.setHandler("listAggregate", function(model){
-    model.fetch({success: function(){
-        $app.contacts.add(model);
-        $app.reRenderCollection();
-    }});
-});
 
 //Start the Marionette app...
 $app.start();
