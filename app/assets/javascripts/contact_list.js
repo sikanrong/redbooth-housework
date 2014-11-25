@@ -293,7 +293,14 @@ var AddContactView = SingleContactView.extend({
 });
 
 var EmptyView = Backbone.Marionette.ItemView.extend({
-  template: "#empty_template"
+  template: "#empty_template",
+  events: {
+    "click a#add_item_link" : "popupAppAddContactDialog"
+  },
+  
+  popupAppAddContactDialog: function(){
+      $app.popupAddContactDialog();
+  }
 });
 
 var ContactListView = Backbone.Marionette.CollectionView.extend({

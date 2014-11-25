@@ -69,7 +69,7 @@ div.add_new input.add{
 /*page header style*/
 div.page_title{
     margin:0px auto;
-    margin-bottom:15px;
+    margin-bottom:25px;
     position: relative;
     width: 500px;
     font-variant: small-caps;
@@ -84,6 +84,7 @@ a#add_item_link img{
     width: 50px;
     
     margin-bottom: -15px;
+    margin-right: -15px;
 }
 
 /*Hides the "Create new contact" popup *content* until the Dialog is summoned*/
@@ -233,4 +234,12 @@ here too because it's multiline content...'*/
 
 #single_contact_display .info_row #jeditable_placeholder{
     color: #AAA;
+}
+
+span#empty_contact_list_message{
+    font-size: 24px;
+}
+
+span#empty_contact_list_message a{
+    font-weight: bold;
 }
