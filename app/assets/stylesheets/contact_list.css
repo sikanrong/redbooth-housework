@@ -6,44 +6,33 @@
     font-family: arial;
 }
 
+/*Globally remove the underline under link (a) tags*/
 a{
     text-decoration: none;
 }
 
+/*Set page background color to white*/
 body{
     background-color: #FFF;
 }
 
-.dbg_border{
-    border: 1px solid red;
-}
-
-/*hides the toggle edit link and the textual attribute display if the View
-is in "edit" mode*/
-.add_new .contact_attribute_display,
-.edit_mode .contact_attribute_display,
-.edit_mode a.toggle_edit{
-    display:none;
-}
-
 /*hides the unrelated bottom links in the "Create new Contact" popup...*/
-div.add_new a.toggle_edit,
 div.add_new a.destroy_contact,
-div.add_new input.save,
 div.add_new div#image_upload_container{
     display:none;
 }
 
-/*hides the "add" button in all cases except if within the "Create new contact" popup...*/
+/*hides the "add" button in all cases except if within the "Create new Contact" popup...*/
 input.add{
     display:none;
 }
 
+/*specifically show the add button within the "Create new Contact" popup */
 div.add_new input.add{
     display:block !important;
 }
 
-/*progress bar styling*/
+/*Progress-bar style*/
 #progress{
     position: fixed;
     top: 0px;
@@ -54,6 +43,7 @@ div.add_new input.add{
     height: 20px;
     display:none;
 }
+
 #progress div.progress-bar-success{
     height: 20px;
     width: 0px;
@@ -61,7 +51,7 @@ div.add_new input.add{
 }
 
 
-/*page header style*/
+/*Page title style*/
 div.page_title{
     margin:0px auto;
     margin-bottom:25px;
@@ -72,7 +62,7 @@ div.page_title{
     font-weight: bold;
 }
 
-/*"Create new contact" popup link style*/
+/*"Create New" link icon style. Appears to the right of the page title*/
 a#add_item_link img{
     float:right;
     height: 50px;
@@ -82,17 +72,18 @@ a#add_item_link img{
     margin-right: -15px;
 }
 
-/*Hides the "Create new contact" popup *content* until the Dialog is summoned*/
+/*Hides the "Create new contact" popup content, until the Dialog is summoned*/
 div.add_new{
     display:none;
 }
 
+/*style for the main contact list container*/
 #contacts_list{
     margin:0px auto;
     width:500px;
 }
 
-/*Actual contact info display box styling...*/
+/*Main contact info display box style...*/
 #single_contact_display{
     margin:5px auto;
     border: 2px solid grey;
@@ -104,7 +95,8 @@ div.add_new{
     clear: left;
 }
 
-/*create a subdivision within each "contact card"*/
+/* Create a subdivision within each "contact card": */
+/* This displays half the data on the left, and the other half on the right. */
 #single_contact_display .contact_subcontainer{
     width:240px;
     padding: 5px;
@@ -112,10 +104,12 @@ div.add_new{
     height:100%;
 }
 
+/*Style for editable field-labels*/
 #single_contact_display label{
  font-variant: small-caps;
 }
 
+/*Various styles for the image-upload UI*/
 #single_contact_display div#image_upload_container{
     height:100px;
     
@@ -134,11 +128,7 @@ div.add_new{
     float:left;
 }
 
-#single_contact_display #action_links{
-    clear:both;    
-    width: 100%;
-}
-
+/*Style for the edit Contact inputs*/
 #single_contact_display .contact_attribute_edit,
 #single_contact_display .contact_attribute_edit input,
 #single_contact_display .contact_attribute_edit_select{
@@ -149,20 +139,12 @@ div.add_new{
     text-align: right;
 }
 
-/*For a textarea, it's vital that the text alignment is left.'*/
-#single_contact_display .contact_attribute_edit_area{
-    text-align:left !important;
-}
-
+/* Make the cursor change to a pointer when hovering over text that is 
+"editable-on-click"*/
 #single_contact_display .contact_attribute_edit,
 #single_contact_display .contact_attribute_edit_area,
 #single_contact_display .contact_attribute_edit_select{
     cursor: pointer;
-}
-
-
-#single_contact_display.add_new #notes_display{
-    display:none;
 }
 
 /*For the textual notes display scroller. Note that the text-align is set to left 
@@ -186,6 +168,7 @@ here too because it's multiline content...'*/
     overflow-y: scroll;
 }
 
+/* Styles for the individual Contact attribute input/display elements*/
 #single_contact_display .info_row{
     margin-bottom:5px;
     overflow:hidden;
@@ -227,10 +210,13 @@ here too because it's multiline content...'*/
     width:100%;   
 }
 
+/*The default "Click to add" text style, displayed when a jquery.jeditable input has an 
+empty value.*/
 #single_contact_display .info_row #jeditable_placeholder{
     color: #AAA;
 }
 
+/*Styles for the "empty contact list" view*/
 span#empty_contact_list_message{
     font-size: 24px;
 }
