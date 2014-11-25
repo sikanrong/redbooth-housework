@@ -86,8 +86,8 @@ var ContactModel = Backbone.Model.extend({
     
     setupJQueryPlugins: function(){
         this.trigger("setup:jqueryplugins");
-    },
-    
+    }
+
 });
 
 //define the contact collection. 
@@ -96,16 +96,64 @@ var ContactCollection = Backbone.Collection.extend({
     model: ContactModel
 });
 
-var SingleContactView = Backbone.Marionette.ItemView.extend({
+var ContactCardView = Backbone.Marionette.ItemView.extend({
   tagName: "div",
   id: "single_contact_display",
-  className: "display_mode",
-  
   template: "#contact_template",
   
+  //Related to the "active state" of this ContactCard
+  selectedOffset: "5px",
+  isActive: false,
+  
   initialize: function(){
+      var my = this;
+      
       this.model.on("setup:fileupload", this.setupFileUpload, this);
       this.model.on("setup:jqueryplugins", this.setupJQueryPlugins, this);
+      
+      $('html').mousedown(function(event) {
+        if (!$(event.target).closest(my.$el).length) {
+            my.setInactive();
+        };
+      });
+  },
+  
+  
+  events: {
+    "mousedown" : "setActive",
+    
+    "click a.destroy_contact" : "clear",
+    "click a.toggle_edit" : "toggleEditMode",
+    "click input.save" : "toggleEditMode",
+    "click a.destroy_image" : "destroyImage"
+  },
+  
+  setActive: function(){
+      if(this.isActive){
+          return;
+      }
+      
+      this.$el.animate({
+          marginLeft: "-="+this.selectedOffset,
+          marginTop: "-="+this.selectedOffset,
+          boxShadow: this.selectedOffset+" "+this.selectedOffset+" 5px #888888"
+      }, 200);
+      
+      this.isActive = true;
+  },
+  
+  setInactive: function(){
+      if(!this.isActive){
+          return;
+      }
+      
+      this.$el.animate({
+          marginLeft: "+="+this.selectedOffset,
+          marginTop: "+="+this.selectedOffset,
+          boxShadow: "none"
+      }, 200);
+      
+      this.isActive = false;
   },
   
   templateHelpers:function(){
@@ -226,28 +274,10 @@ var SingleContactView = Backbone.Marionette.ItemView.extend({
         }));
   },
   
-  events: {
-    "click a.destroy_contact" : "clear",
-    "click a.toggle_edit" : "toggleEditMode",
-    "click input.save" : "toggleEditMode",
-    "click a.destroy_image" : "destroyImage"
-  },
-  
   destroyImage: function(){
       this.model.set({contact_image_file_name: null});
       $.ajax("/contacts/destroy_image/"+this.model.id); 
       this.reRender();
-  },
-  
-  toggleEditMode: function(){
-    if(this.$el.hasClass("display_mode")){
-      this.$el.removeClass("display_mode");
-      this.$el.addClass("edit_mode");
-    }else{
-      this.$el.addClass("display_mode");
-      this.$el.removeClass("edit_mode");
-      this.saveContact();
-    }
   },
   
   saveContact: function(){
@@ -274,7 +304,7 @@ var SingleContactView = Backbone.Marionette.ItemView.extend({
   
 });
 
-var AddContactView = SingleContactView.extend({
+var AddContactView = ContactCardView.extend({
     tagName: "div",
     template: "#contact_template",
     
@@ -305,7 +335,7 @@ var EmptyView = Backbone.Marionette.ItemView.extend({
 
 var ContactListView = Backbone.Marionette.CollectionView.extend({
   tagName: 'ul',
-  childView: SingleContactView,
+  childView: ContactCardView,
   emptyView: EmptyView
 });
 

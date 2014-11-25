@@ -20,6 +20,7 @@
 //= require jquery.fileupload
 //= require jquery.iframe-transport
 //= require jquery.jeditable
+//= require jquery.animate-shadow
 //= require contact_list
 //= require_tree .
 
