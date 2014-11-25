@@ -10,6 +10,10 @@ a{
     text-decoration: none;
 }
 
+body{
+    background-color: #FFF;
+}
+
 .dbg_border{
     border: 1px solid red;
 }
@@ -87,6 +91,11 @@ div.add_new{
     display:none;
 }
 
+#contacts_list{
+    margin:0px auto;
+    width:500px;
+}
+
 /*Actual contact info display box styling...*/
 #single_contact_display{
     margin:5px auto;
@@ -95,6 +104,7 @@ div.add_new{
     width: 500px;
     height: 250px;
     top: 0px;
+    background: linear-gradient(#FFEECC, #FCDEA5);
     clear: left;
 }
 
@@ -148,6 +158,13 @@ div.add_new{
     text-align:left !important;
 }
 
+#single_contact_display .contact_attribute_edit,
+#single_contact_display .contact_attribute_edit_area,
+#single_contact_display .contact_attribute_edit_select{
+    cursor: pointer;
+}
+
+
 #single_contact_display.add_new #notes_display{
     display:none;
 }
@@ -174,13 +191,10 @@ here too because it's multiline content...'*/
 }
 
 #single_contact_display .info_row{
-    margin-bottom:2px;
+    margin-bottom:5px;
     overflow:hidden;
 }
 
-#single_contact_display .info_row#both_address_lines{
-    height: 50px;
-}
 
 #single_contact_display .info_row input{
     height:15px;
